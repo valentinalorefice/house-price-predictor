@@ -42,11 +42,11 @@ jobs:
             mlflow server --host 0.0.0.0 --port 5000 
 
       - name: Ejecutar Model Training
-        run: | # 🚨 CORRECCIÓN: Ruta de Salida a directorio existente 🚨
+        run: | 
           python src/models/train_model.py \
-            --config_path="./configs/model_config.yaml" \
-            --input_dir="./house_feature_data.csv" \
-            --output_dir="./models/trained"
+            --config "./configs/model_config.yaml" \
+            --data "./house_feature_data.csv" \
+            --models-dir "./models/trained"
 
       - name: Limpiar MLflow
         run: |
