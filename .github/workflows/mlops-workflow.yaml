@@ -3,37 +3,35 @@ name: Flujo de Trabajo MLOps CI
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Permite la ejecución manual
+  workflow_dispatch:
 
 jobs:
   mlops_ci_job:
-    runs-on: ubuntu-latest # El runner que usará esta VM
+    runs-on: ubuntu-latest
 
     steps:
       - name: Revisar el Código
-        uses: actions/checkout@v4 # Paso 1: Descarga el código
+        uses: actions/checkout@v4
 
       - name: Configurar Entorno Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11.5' # Usa la versión consistente
+          python-version: '3.11.5'
 
       - name: Instalar Dependencias del Proyecto
-        run: | # Paso 3: Instala todas las dependencias
+        run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       # --- Pasos de ML ---
 
       - name: Ejecutar Feature Engineering
-        run: | # Paso 4: Prepara el dataset con features
-          python src/features/engineer.py --input "./house_raw_data.csv" --output "./house_feature_data.csv" --preprocessor "./model/preprocessor.pkl"
+        run: | # 🚨 CORRECCIÓN: Usar la ruta y nombre de archivo correctos
+          python src/features/engineer.py --input "./data/raw/house_data.csv" --output "./house_feature_data.csv" --preprocessor "./model/preprocessor.pkl"
 
       - name: Configurar MLflow (Docker)
-        run: | # Paso 5: Solución para la dependencia de MLflow
-          # Descargar la imagen MLflow
+        run: |
           docker pull ghcr.io/mlflow/mlflow:latest 
-          # Iniciar el servidor MLflow en segundo plano (-d)
           docker run -d \
             -p 5555:5000 \
             --name mlflow-server \
@@ -41,11 +39,11 @@ jobs:
             mlflow server --host 0.0.0.0 --port 5000 
 
       - name: Ejecutar Model Training
-        run: | # Paso 6: Entrena el modelo y lo registra en MLflow
+        run: |
           python train_model.py --config_path="./configs/model_config.yaml" --input_dir="./" --output_dir="./model"
 
       - name: Limpiar MLflow
-        run: | # Paso 7: Detener y eliminar el contenedor de MLflow
+        run: |
           docker stop mlflow-server
           docker rm mlflow-server
 
@@ -54,7 +52,6 @@ jobs:
       - name: Docker Login
         uses: docker/login-action@v3
         with:
-          # Usará DOCKER_USERNAME y DOCKER_PASSWORD de tus Secrets de GitHub
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
@@ -65,9 +62,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile # Ruta al Dockerfile
+          file: ./Dockerfile
           push: true
           tags: |
-            # UTILIZANDO TU USUARIO: valentinalorefice
             valentinalorefice/fast-api:latest
             valentinalorefice/fast-api:${{ github.sha }}
