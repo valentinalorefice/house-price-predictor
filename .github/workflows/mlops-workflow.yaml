@@ -43,7 +43,7 @@ jobs:
 
       - name: Ejecutar Model Training
         run: | # 🚨 CORRECCIÓN: Ruta de Salida a directorio existente 🚨
-          python train_model.py \
+          python src/models/train_model.py \
             --config_path="./configs/model_config.yaml" \
             --input_dir="./house_feature_data.csv" \
             --output_dir="./models/trained"
