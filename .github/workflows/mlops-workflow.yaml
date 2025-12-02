@@ -26,8 +26,11 @@ jobs:
       # --- Pasos de ML ---
 
       - name: Ejecutar Feature Engineering
-        run: | # 🚨 CORRECCIÓN: Usar la ruta y nombre de archivo correctos
-          python src/features/engineer.py --input "./data/raw/house_data.csv" --output "./house_feature_data.csv" --preprocessor "./model/preprocessor.pkl"
+        run: | # 🚨 CORRECCIÓN: Rutas de Entrada y Salida a directorios existentes 🚨
+          python src/features/engineer.py \
+            --input "./data/raw/house_data.csv" \
+            --output "./house_feature_data.csv" \
+            --preprocessor "./models/trained/preprocessor.pkl"
 
       - name: Configurar MLflow (Docker)
         run: |
@@ -39,8 +42,11 @@ jobs:
             mlflow server --host 0.0.0.0 --port 5000 
 
       - name: Ejecutar Model Training
-        run: |
-          python train_model.py --config_path="./configs/model_config.yaml" --input_dir="./" --output_dir="./model"
+        run: | # 🚨 CORRECCIÓN: Ruta de Salida a directorio existente 🚨
+          python train_model.py \
+            --config_path="./configs/model_config.yaml" \
+            --input_dir="./house_feature_data.csv" \
+            --output_dir="./models/trained"
 
       - name: Limpiar MLflow
         run: |
