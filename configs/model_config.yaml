@@ -1,4 +1,4 @@
-model_config: # L1
+model: # L1
   algorithm: GradientBoostingRegressor # L2
   
   hyperparameters: # L4 (Debe ser un mapeo, no una lista)
