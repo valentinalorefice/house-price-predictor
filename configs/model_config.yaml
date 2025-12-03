@@ -1,17 +1,14 @@
-model_config:
-  # Nombre del algoritmo seleccionado durante la fase de experimentación
-  algorithm: GradientBoostingRegressor
+model_config: # L1
+  algorithm: GradientBoostingRegressor # L2
   
-  # Hiperparámetros óptimos (basados en la búsqueda de cuadrícula del científico de datos)
-  hyperparameters:
-    n_estimators: 300
-    learning_rate: 0.1
-    max_depth: 3
-    # Otras configuraciones...
-  
-  # Metadatos y variables de control
-  metadata:
-    version: 4.0
-    target_variable: price
-    [cite_start]validation_metric: R2 # R² es la métrica principal usada [cite: 482]
-    min_acceptable_r2: 0.90
+  hyperparameters: # L4 (Debe ser un mapeo, no una lista)
+    n_estimators: 300 # L5
+    learning_rate: 0.1 # L6
+    max_depth: 3 # L7
+    
+  metadata: # L9
+    version: 4.0 # L10
+    validation_metric: R2 # L11
+    min_acceptable_r2: 0.90 # L12
+# L13
+# L14 (El error está aquí)
