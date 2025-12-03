@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: model
+  name: model
+spec:
+  replicas: 2 # Usaremos 2 réplicas para escalabilidad horizontal
+  selector:
+    matchLabels:
+      app: model
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: model
+    spec:
+      # --- SECCIÓN AÑADIDA PARA AUTENTICACIÓN ---
+      imagePullSecrets:
+      - name: regcred # Nombre del Secret de Docker Hub creado con kubectl
+      # ---------------------------------------------
+      containers:
+      - image: valentinalorefice/fast-api:latest # Imagen de tu modelo
+        name: fast-api
+        resources: {}
+        ports:
+        - containerPort: 8000 # Puerto en el que escucha FastAPI
+status: {}
