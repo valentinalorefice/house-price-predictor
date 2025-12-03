@@ -1,14 +1,17 @@
-model: # L1
-  algorithm: GradientBoostingRegressor # L2
+
+model:
+  # Clave necesaria para el script (línea 64)
+  target_variable: price # <-- ¡Clave movida a este nivel!
+
+  algorithm: GradientBoostingRegressor
   
-  hyperparameters: # L4 (Debe ser un mapeo, no una lista)
-    n_estimators: 300 # L5
-    learning_rate: 0.1 # L6
-    max_depth: 3 # L7
-    
-  metadata: # L9
-    version: 4.0 # L10
-    validation_metric: R2 # L11
-    min_acceptable_r2: 0.90 # L12
-# L13
-# L14 (El error está aquí)
+  hyperparameters:
+    n_estimators: 300
+    learning_rate: 0.1
+    max_depth: 3
+    subsample: 0.7
+  
+  metadata:
+    version: 4.0
+    validation_metric: R2
+    min_acceptable_r2: 0.90
