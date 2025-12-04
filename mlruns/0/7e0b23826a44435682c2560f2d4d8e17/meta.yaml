@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/valentinalorefice/house-price-predictor/mlruns/0/7e0b23826a44435682c2560f2d4d8e17/artifacts
+end_time: 1764855786363
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 7e0b23826a44435682c2560f2d4d8e17
+run_name: final_training
+run_uuid: 7e0b23826a44435682c2560f2d4d8e17
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764855784362
+status: 3
+tags: []
+user_id: valentinalorefice
