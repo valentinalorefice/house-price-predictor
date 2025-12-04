@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from inference import predict_price, batch_predict
+from .inference import predict_price, batch_predict
 from schemas import HousePredictionRequest, PredictionResponse
 
 # Initialize FastAPI app with metadata
