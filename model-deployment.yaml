@@ -20,8 +20,8 @@ spec:
       - name: regcred # Nombre del Secret de Docker Hub creado con kubectl
       # ---------------------------------------------
       containers:
-      - image: valentinalorefice/streamlit:v4 # Imagen de tu modelo
-        name: streamlit
+      - image: valentinalorefice/fast-api:latest # Imagen de tu modelo
+        name: fast-api
         resources: {}
         ports:
         - containerPort: 8000 # Puerto en el que escucha FastAPI
