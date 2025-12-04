@@ -9,16 +9,13 @@ spec:
   selector:
     matchLabels:
       app: streamlit
-  strategy: {}
   template:
     metadata:
       labels:
         app: streamlit
     spec:
       containers:
-      - image: valentinalorefice/streamlit:v4
-        name: streamlit
-        ports:
-        - containerPort: 8501
-        resources: {}
-status: {}
+        - name: streamlit
+          image: valentinalorefice/streamlit:v3
+          ports:
+            - containerPort: 8501
