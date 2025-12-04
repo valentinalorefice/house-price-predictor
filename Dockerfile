@@ -15,9 +15,9 @@ COPY requirements.txt .
 COPY src/api/ /app/src/api/
 
 # Copiar los modelos y preprocesador (artefactos generados por el CI)
-# Estos archivos se generaron en el step de entrenamiento y deben ser copiados:
-COPY models/trained/house_price_model.pkl /app/models/trained/house_price_model.pkl
-COPY models/trained/preprocessor.pkl /app/models/trained/preprocessor.pkl
+RUN mkdir -p /app/models/trained
+COPY models/trained/ /app/models/trained/
+
 
 # 3. Instalar dependencias
 # Instalar los paquetes necesarios (FastAPI, joblib, scikit-learn, etc.)
