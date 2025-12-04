@@ -3,30 +3,25 @@
 # 1. Base Image
 FROM python:3.11-slim
 
-# Establecer la carpeta /app como directorio de trabajo
+# 2. Directorio de trabajo
 WORKDIR /app
 
-# 2. Copiar archivos de dependencia y código fuente
-# Copiar requirements.txt desde la raíz del repositorio local al WORKDIR /app
+# 3. Dependencias
 COPY requirements.txt .
-
-# Copiar el código de la API desde src/api/ a /app/src/api/
-# El código de la API es: main.py, inference.py, schemas.py
-COPY src/api/ /app/src/api/
-
-# Copiar los modelos y preprocesador (artefactos generados por el CI)
-RUN mkdir -p /app/models/trained
-COPY models/trained/ /app/models/trained/
-
-
-# 3. Instalar dependencias
-# Instalar los paquetes necesarios (FastAPI, joblib, scikit-learn, etc.)
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 4. Exponer el puerto
+# 4. Código de la API
+COPY src/api/ /app/src/api/
+
+# 5. Artefactos del modelo (.pkl)
+#   - /app/models/trained           → por si tu código los busca ahí
+#   - /app/src/api/models/trained   → por si los busca relativo al paquete api
+RUN mkdir -p /app/models/trained /app/src/api/models/trained
+COPY models/trained/ /app/models/trained/
+COPY models/trained/ /app/src/api/models/trained/
+
+# 6. Puerto
 EXPOSE 8000
 
-# 5. Comando de lanzamiento
-# uvicorn main:app --host 0.0.0.0 --port 8000
-# El módulo de inicio debe ser relativo a dónde está el código (src.api.main)
+# 7. Comando de arranque
 CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
