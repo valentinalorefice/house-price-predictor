@@ -1,8 +1,7 @@
 # Dockerfile (Ubicación: Raíz del repositorio)
 
 # 1. Base Image
-FROM python:3.11-slim
-
+FROM python:3.9-slim
 # 2. Directorio de trabajo
 WORKDIR /app
 
