@@ -1,26 +1,23 @@
-# Dockerfile (Ubicación: Raíz del repositorio)
+FROM python:3.9
 
-# 1. Base Image
-FROM python:3.9-slim
-# 2. Directorio de trabajo
 WORKDIR /app
 
-# 3. Dependencias
+# 1. Copiar dependencias
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 4. Código de la API
+# 2. Copiar código API
 COPY src/api/ /app/src/api/
 
-# 5. Artefactos del modelo (.pkl)
-#   - /app/models/trained           → por si tu código los busca ahí
-#   - /app/src/api/models/trained   → por si los busca relativo al paquete api
+# 3. Crear carpetas para los modelos
 RUN mkdir -p /app/models/trained /app/src/api/models/trained
+
+# 4. Copiar artefactos del modelo
 COPY models/trained/ /app/models/trained/
 COPY models/trained/ /app/src/api/models/trained/
 
-# 6. Puerto
+# 5. Exponer puerto
 EXPOSE 8000
 
-# 7. Comando de arranque
+# 6. Correr FastAPI
 CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
